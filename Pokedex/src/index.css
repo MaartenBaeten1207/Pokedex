@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.grad1{
+    background: linear-gradient(109.73deg, #46469C 0%, #7E32E0 100%);
+    border-radius: 10px;
+}
+
+.grad2{
+    background: linear-gradient(109.73deg, #65CB9A 0%, #15D0DC 100%);
+    border-radius: 10px;
+}
+
+
+.card > h2 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height, or 122% */
+    
+    letter-spacing: -0.408px;
+    
+    color: #FFFFFF;
+}
+.card > h3 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22px;
+    /* identical to box height, or 147% */
+    
+    letter-spacing: -0.408px;
+    
+    color: rgba(255, 255, 255, 0.5);
+}
+
+
