@@ -7,6 +7,12 @@
     background: linear-gradient(109.73deg, #46469C 0%, #7E32E0 100%);
 }
 
+.grad1Title{
+    background: -webkit-linear-gradient(109.73deg, #65CB9A 0%, #15D0DC 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .grad2{
     background: linear-gradient(109.73deg, #65CB9A 0%, #15D0DC 100%);
 }
@@ -40,6 +46,14 @@
 
 .scroll{
     overflow-y: scroll;
+    height: 100vh;
+    min-height: 1em;
+}
+
+
+
+.scrollX{
+    overflow-x: scroll;
     height: 100vh;
     min-height: 1em;
 }
@@ -114,11 +128,46 @@
     font-size: 15px;
     line-height: 18px;
     /* identical to box height */
-    
-    text-align: right;
+
     letter-spacing: -0.408px;
     
     /* Dark 1 */
+    
+    color: #1F2029;
+    
+}
+
+.type{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.374px;
+
+    color: #FFFFFF;
+    height: 20px;
+}
+
+.pokeInfoTitle {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 41px;
+    /* identical to box height, or 121% */
+    
+    letter-spacing: 0.374px;
+    
+    color: #FFFFFF;
+}
+
+.movesetName{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+    /* identical to box height, or 133% */
+    
+    letter-spacing: -0.5px;
     
     color: #1F2029;
     
