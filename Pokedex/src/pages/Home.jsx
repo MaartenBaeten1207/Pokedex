@@ -8,10 +8,18 @@ import PokemonListCard from '../components/PokemonListCard'
 import PokemonInfo from '../components/PokemonInfo'
 
 export default function Home() {
-	const [pokeList,setPokeList] = React.useState([{}])
+	const [pokeList,setPokeList] = React.useState([{}]);
 
-	const [currentPokemonID,setCurrentPokemonID] = React.useState('1')
-	const [currentPokemon,setCurrentPokemon] = React.useState({})
+	const [favPokemon,setFavPokemon] = React.useState([]);
+	const [favPokeIds,setFavPokeIds]=React.useState([]);
+	const [favTabActive,setFavTabActive]=React.useState(false);
+
+	const [teamPokemon,setTeamPokemon] = React.useState([]);
+	const [teamPokeIds,setTeamPokeIds]=React.useState([]);
+	const [teamTabActive,setTeamTabActive]=React.useState(false);
+
+	const [currentPokemonId,setCurrentPokemonId] = React.useState('1');
+	const [currentPokemon,setCurrentPokemon] = React.useState({});
 
 	const [filteredData, setFilteredData] = React.useState([]);
   const [searchInput, setSearchInput] = React.useState("");
@@ -29,16 +37,26 @@ export default function Home() {
   }, []);
 
 	React.useEffect(() => {
-    fetch("https://pokeapi.co/api/v2/pokemon/"+ currentPokemonID)
+    fetch("https://pokeapi.co/api/v2/pokemon/"+ currentPokemonId)
       .then((response) => response.json())
 			.then((data) => setCurrentPokemon(data))
-  }, [currentPokemonID]);
+  }, [currentPokemonId]);
+
+	// React.useEffect(() => {
+	// 	favPokeIds.forEach(pokeId => fetch("https://pokeapi.co/api/v2/pokemon/"+ pokeId)
+	// 		.then((response) => response.json())
+	// 		.then((data) => setFavPokemon(prevState => [...prevState, data])))
+  // }, [favPokeIds]);
 
   const handleChange = (event) => {
     const searchWord = event.target.value;
     setSearchInput(searchWord);
     const newFilter = pokeList.filter((pokemon) => {
-      return pokemon.name.toLowerCase().includes(searchWord.toLowerCase());
+			if(Number.isInteger(parseInt(searchWord))){ 
+				return pokemon.id.toString().includes(searchWord);
+			}else{
+				return pokemon.name.toLowerCase().includes(searchWord.toLowerCase());
+			}
     });
 
     if (searchWord === "") {
@@ -49,13 +67,47 @@ export default function Home() {
   };
 
 	function handleClick(id){
-		setCurrentPokemonID(id)
+		setCurrentPokemonId(id)
 	}
 
-	// console.log('current',currentPokemon)
-	// console.log('results',filteredData)
-	// sprites":{"front_defaul
-	// console.log('li',Object.keys(pokeList).length)
+	
+	function handleToggleFavorite(){
+		if(favPokeIds.length == 0){
+			setFavPokeIds(prevState => [...prevState,currentPokemon.id])
+			setFavPokemon(prevState => [...prevState,currentPokemon])
+		}else{
+			if(favPokeIds.includes(currentPokemon.id)){
+				setFavPokeIds(favPokeIds.filter(id => id !== currentPokemon.id))
+				setFavPokemon(favPokemon.filter(pokemon => pokemon.id !== currentPokemon.id))
+			}else{
+				setFavPokeIds(prevFav => [...prevFav, currentPokemon.id]);
+				setFavPokemon(prevFav => [...prevFav, currentPokemon]);
+			}
+		}
+	}
+	
+	function handleToggleTeam(){
+		if(teamPokeIds.length == 0){
+			setTeamPokeIds(prevState => [...prevState,currentPokemon.id])
+			setTeamPokemon(prevState => [...prevState,currentPokemon])
+		}else{
+			if(teamPokeIds.includes(currentPokemon.id)){
+				setTeamPokeIds(teamPokeIds.filter(id => id !== currentPokemon.id))
+				setTeamPokemon(teamPokemon.filter(pokemon => pokemon.id !== currentPokemon.id))
+			}else if(teamPokeIds.length <6){
+				setTeamPokeIds(prevFav => [...prevFav, currentPokemon.id]);
+				setTeamPokemon(prevFav => [...prevFav, currentPokemon]);
+			}
+		}
+	}
+
+	function handleFavTabToggle(){
+		setFavTabActive(prevState => !prevState);
+	}
+	function handleTeamTabToggle(){
+		setTeamTabActive(prevState => !prevState);
+	}
+
 	const pokeCardElements = Object.keys(filteredData).length > 0 && filteredData.map(pokemon => {
 		return<PokemonListCard 
 			types={pokemon.types}
@@ -66,13 +118,30 @@ export default function Home() {
 			key={nanoid()}
 		/> 
 	})
+	const favoritePokeCardElements = favPokemon.map(pokemon => {
+		return<PokemonListCard 
+			types={pokemon.types}
+			img={pokemon.sprites.front_default}
+			id={pokemon.id}
+			name={pokemon.name}
+			handleClick={handleClick}
+			key={nanoid()}
+		/> 
+	})
+	const teamPokeCardElements = teamPokemon.map(pokemon => {
+		return<PokemonListCard 
+			types={pokemon.types}
+			img={pokemon.sprites.front_default}
+			id={pokemon.id}
+			name={pokemon.name}
+			handleClick={handleClick}
+			key={nanoid()}
+		/> 
+	})
 	
-
-	// console.log('pokelist', pokeList)
-	// console.log('pokelist results', pokeListResults)
   return (
     <div className="flex flex-nowrap">
-			<div className='defBackground flex-initial px-4'>
+			<div className='defBackground flex-initial px-4 min-w-fit pt-5'>
 				<h1 className='ml-4 mt-10 text-[#1F2029] font-sans font-bold text-4xl select-none'>Pokedex</h1>
 				<form className='mt-6'>   
 					<div className="relative">
@@ -92,7 +161,7 @@ export default function Home() {
 				</form>
 
 				<div className="flex flex-wrap mt-4 gap-4 select-none">
-					<div className='flex card grad1 br10 pl-5 select-none'>
+					<div className='flex card grad1 br10 pl-5 select-none' onClick={handleTeamTabToggle}>
 						<h2 className='mt-10 mr-5'>My Team</h2>
 						<h3 className='absolute mt-14'>12 pokemons</h3>
 
@@ -103,7 +172,7 @@ export default function Home() {
 						</svg> 
 					</div>
 
-					<div className='flex card grad2 br10 pl-5 select-none'>
+					<div className='flex card grad2 br10 pl-5 select-none' onClick={handleFavTabToggle}>
 						<h2 className='mt-10 mr-5'>Favorites</h2>
 						<h3 className='absolute mt-14'>12 pokemons</h3>
 
@@ -115,15 +184,34 @@ export default function Home() {
 					</div>
 				</div>
 
+
 				<div className='scroll mt-5 my-5'>
 					{pokeCardElements}
 				</div>
 			</div>
 
-			<div className= 'bg-gray-500 flex-auto'>
+			<div className='defBackground flex-initial px-4 min-w-fit '>
+				{favTabActive &&
+					<div className='grad2 rounded-lg mb-5 '>
+						{favoritePokeCardElements}
+					</div>
+				}
+				{teamTabActive &&
+					<div className='grad1 rounded-lg '>
+						{teamPokeCardElements}
+					</div>
+				}
+			</div>
+			
+			<div className= 'grad2 flex-auto pt-10'>
 				{Object.keys(currentPokemon).length >1 &&
 				<PokemonInfo 
 					currentPokemon={currentPokemon}
+					currentPokemonId={currentPokemonId}
+					handleToggleFavorite={handleToggleFavorite}
+					handleToggleTeam={handleToggleTeam}
+					favPokeIds={favPokeIds}
+					teamPokeIds={teamPokeIds}
 				/>
 				}
 			</div>
