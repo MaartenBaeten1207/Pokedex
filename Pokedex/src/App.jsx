@@ -5,15 +5,8 @@ import { nanoid } from 'nanoid'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 
-// import './App.css'
-
-//Import Pages
 import Home from './pages/Home'
-import MyTeam from './pages/MyTeam'
-import MyFavorites from './pages/MyFavorites'
-
-//Import Components
-
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -23,18 +16,7 @@ function App() {
           path='/' 
           element={<Home/>}
         />
-        <Route 
-          path='/myteam' 
-          element={
-            <MyTeam />
-          }
-        />
-        <Route 
-          path="/myfavorites" 
-          element={
-            <MyFavorites/>
-          }
-        />
+      <Route path='*' element={<NotFound />}/>
       </Routes>
     </div>
   )
