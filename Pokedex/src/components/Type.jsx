@@ -1,35 +1,56 @@
 import React from 'react'
 
 function Type(props) {
-  const [color,setColor] = React.useState('')
-
-  React.useEffect(() => {
+  const getBackGroundColor = ()=>{
+    let color = 'red';
     if (props.name == 'grass'){
-      setColor('#95C24D')
+      color = '#7AC74C'
     }else if (props.name == 'poison'){
-      setColor('#7B62A3')
+      color = '#A33EA1'
     }else if (props.name == 'water'){
-      setColor('#4592C3')
+      color='#6390F0'
     }else if (props.name == 'normal'){
-      setColor('#A3ACAE')
+      color = '#A8A77A'
     }else if (props.name == 'fire'){
-      setColor('#FD7D25')
+      color = '#EE8130'
     }else if (props.name == 'lightning'){
-      setColor('#4592C3')
+      color = '#4592C3'
     }else if (props.name == 'ground'){
-      setColor('#4592C3')
+      color = '#E2BF65'
     }else if (props.name == 'flying'){
-      setColor('##a2bcea')
+      color = '#A98FF3'
     }else if (props.name == 'bug'){
-      setColor('##a2bcea')
+      color = '#A6B91A'
+    }else if (props.name == 'psychic'){
+      color = '#F95587'
+    }else if (props.name == 'electric'){
+      color = '#F7D02C'
+    }else if (props.name == 'ice'){
+      color = '#96D9D6'
+    }else if (props.name == 'rock'){
+      color = '#B6A136'
+    }else if (props.name == 'ghost'){
+      color = '#735797'
+    }else if (props.name == 'dragon'){
+      color = '#6F35FC'
+    }else if (props.name == 'dark'){
+      color = '#705746'
+    }else if (props.name == 'steel'){
+      color = '#B7B7CE'
+    }else if (props.name == 'fairy'){
+      color = '#D685AD'
     }
-  }, []);
+    return color ;
+  }
 
-
+  
 
   return (
-    <div className='border flex flex-wrap  rounded-full p-2' style={{ backgroundColor: color}}>
-      {props.name}
+    <div 
+      className='flex justify-center type border rounded-full w-16 h-12' 
+      style={{ backgroundColor: getBackGroundColor()}}
+      >
+      <h2>{props.name.charAt(0).toUpperCase() + props.name.slice(1)}</h2>
     </div>
   )
 }
